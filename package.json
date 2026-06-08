@@ -1,12 +1,14 @@
 {
   "name": "pomidor-ide",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Pomidor IDE — code editor for the Pomidor programming language with Pom Pom mascot.",
   "author": "RENDERGAMES",
   "license": "MIT",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "dist": "electron-builder --win",
+    "pack": "electron-builder --win --dir",
     "dev": "electron . --dev",
     "build": "electron-builder",
     "build:win": "electron-builder --win",
@@ -22,7 +24,7 @@
   },
   "devDependencies": {
     "electron": "^35.7.5",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.15.2"
   },
   "build": {
     "appId": "com.rendergames.pomidoride",
@@ -56,21 +58,25 @@
       "target": [
         "nsis",
         "zip"
-      ]
+      ],
+      "icon": "src/assets/icon.ico"
     },
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
-      "category": "Development"
+      "category": "Development",
+      "icon": "src/assets/icon.png"
     },
     "mac": {
       "target": [
         "dmg",
         "zip"
       ],
-      "category": "public.app-category.developer-tools"
-    }
+      "category": "public.app-category.developer-tools",
+      "icon": "src/assets/icon.png"
+    },
+    "icon": "src/assets/icon.png"
   }
 }

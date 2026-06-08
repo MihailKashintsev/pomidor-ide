@@ -12,72 +12,147 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-logo">🍅</div>
-        <div>
+        <img class="brand-logo" src="assets/icon.png" alt="Pomidor IDE" />
+        <div class="brand-text">
           <strong>Pomidor IDE</strong>
           <span id="version">v0.1.0</span>
         </div>
       </div>
-
-      <div class="actions">
-        <button id="newBtn">Новый</button>
-        <button id="openBtn">Открыть</button>
-        <button id="saveBtn">Сохранить</button>
-        <button id="runBtn" class="primary">▶ Запуск</button>
-        <button id="updateBtn">Обновления</button>
+      <div class="topbar-center">
+        <span class="command-hint">Файлы, папки, сохранение и обновления — в верхнем меню приложения</span>
+      </div>
+      <div class="topbar-right">
+        <span id="topLanguageBadge">Pomidor</span>
       </div>
     </header>
 
     <main class="workspace">
-      <aside class="sidebar">
-        <h3>Проект</h3>
-        <div class="file-card active" id="currentFile">main.pom</div>
-        <h3>Шаблоны</h3>
-        <button class="wide" id="templateHello">Hello Pom</button>
-        <button class="wide" id="templateIf">Условие</button>
+      <aside class="activitybar">
+        <button class="activity-icon active" data-view="explorer" title="Explorer">📁</button>
+        <button class="activity-icon" data-view="run" title="Run">▶</button>
+        <button class="activity-icon" data-view="mascot" title="Pom Pom">🍅</button>
+        <button class="activity-icon" data-view="settings" title="Settings">⚙</button>
+      </aside>
+
+      <aside class="side-panel">
+        <section class="side-view active" id="view-explorer">
+          <div class="panel-title-row">
+            <span class="panel-title">EXPLORER</span>
+            <span class="panel-title-badge">Pomidor</span>
+          </div>
+
+          <section class="explorer-section">
+            <div class="section-header">
+              <span>Папка проекта</span>
+              <span id="folderPathLabel" class="muted">не выбрана</span>
+            </div>
+            <div id="explorerEmpty" class="empty-state">
+              Открой папку через меню File → Open Folder. Здесь появится дерево файлов проекта.
+            </div>
+            <div id="explorerTree" class="explorer-tree"></div>
+          </section>
+
+          <section class="explorer-section">
+            <div class="section-header"><span>Шаблоны</span></div>
+            <button class="wide" id="templateHello">Hello Pom</button>
+            <button class="wide" id="templateIf">Условие</button>
+            <button class="wide" id="templateLoop">Цикл</button>
+          </section>
+        </section>
+
+        <section class="side-view" id="view-run">
+          <div class="panel-title-row">
+            <span class="panel-title">RUN</span>
+            <span class="panel-title-badge">test</span>
+          </div>
+          <div class="side-card">
+            <div class="side-card-title">Запуск кода</div>
+            <p>Запускает текущий файл или черновик через установленный Pomidor Language.</p>
+            <button class="wide primary" id="runSideBtn">▶ Запустить</button>
+          </div>
+          <div class="side-card">
+            <div class="side-card-title">Вывод</div>
+            <p>Ошибки отмечаются в редакторе. При неудаче у Pom Pom падает энергия.</p>
+          </div>
+        </section>
+
+        <section class="side-view" id="view-mascot">
+          <div class="panel-title-row">
+            <span class="panel-title">POM POM</span>
+            <span class="panel-title-badge">auto</span>
+          </div>
+          <div class="mini-pet-note">
+            Pom Pom живёт сам: ест при удачных запусках, устаёт при ошибках, засыпает после долгой работы.
+          </div>
+          <div class="stats sidebar-stats">
+            <div><span>Счастье</span><meter id="happyMeter" min="0" max="100" value="80"></meter></div>
+            <div><span>Энергия</span><meter id="energyMeter" min="0" max="100" value="100"></meter></div>
+            <div><span>Голод</span><meter id="hungerMeter" min="0" max="100" value="20"></meter></div>
+          </div>
+        </section>
+
+        <section class="side-view" id="view-settings">
+          <div class="panel-title-row">
+            <span class="panel-title">SETTINGS</span>
+            <span class="panel-title-badge">updates</span>
+          </div>
+          <div class="side-card">
+            <div class="side-card-title">Обновления</div>
+            <p>Проверяет Pomidor IDE и язык Pomidor из репозитория pomidor-c.</p>
+            <button class="wide" id="updateSideBtn">Проверить обновления</button>
+          </div>
+          <div class="side-card">
+            <div class="side-card-title">Версия языка</div>
+            <p id="sideLanguageVersion">загрузка...</p>
+          </div>
+        </section>
       </aside>
 
       <section class="editor-zone">
-        <div class="editor-title">
-          <span id="fileName">main.pom</span>
-          <span id="saveState">не сохранено</span>
+        <div class="editor-tabs">
+          <div class="editor-tab active" id="currentTab">
+            <img src="assets/icon.png" alt="tab" />
+            <span id="fileName">main.pom</span>
+            <span class="dirty-dot" id="dirtyDot"></span>
+          </div>
+          <div class="editor-tab-meta" id="saveState">черновик</div>
         </div>
+
         <div id="editor"></div>
+
         <div class="terminal">
           <div class="terminal-tabs">
-            <strong>Вывод</strong>
+            <button class="terminal-tab active" data-terminal="output">OUTPUT</button>
+            <button class="terminal-tab" data-terminal="problems">PROBLEMS</button>
             <span id="runStatus">готов</span>
           </div>
-          <pre id="terminalOutput">Pom Pom: Напиши код и нажми Запуск.</pre>
+          <pre id="terminalOutput">Pom Pom: Напиши код и запусти через меню Run → Run Code или через боковое меню ▶.</pre>
         </div>
       </section>
 
       <aside class="mascot-panel">
-        <div class="pompom-card">
-          <div id="pompom" class="pompom idle">
-            <div class="leaf"></div>
-            <div class="body">
-              <div class="eye left"></div>
-              <div class="eye right"></div>
-              <div class="mouth"></div>
-            </div>
+        <div class="pompom-card" id="pompomCard" data-mood="idle">
+          <div class="pixel-stage">
+            <div id="pixelParticles" class="pixel-particles"></div>
+            <div id="sleepText" class="sleep-text">z z z</div>
+            <img id="pompomSprite" class="pompom-sprite" src="assets/pompom-pixel.png" alt="Pom Pom" />
           </div>
-          <div class="speech" id="pompomMessage">Я Pom Pom. Я буду следить за твоим кодом!</div>
-        </div>
-
-        <div class="stats">
-          <div><span>Счастье</span><meter id="happyMeter" min="0" max="100" value="80"></meter></div>
-          <div><span>Энергия</span><meter id="energyMeter" min="0" max="100" value="100"></meter></div>
-          <div><span>Голод</span><meter id="hungerMeter" min="0" max="100" value="20"></meter></div>
-        </div>
-
-        <div class="pet-actions">
-          <button id="feedBtn">🍅 Покормить</button>
-          <button id="playBtn">🎮 Поиграть</button>
-          <button id="sleepBtn">💤 Сон</button>
+          <div class="mood-row">
+            <span class="mood-badge" id="moodBadge">IDLE</span>
+            <span class="mood-note">автопитомец</span>
+          </div>
+          <div class="speech" id="pompomMessage">Я Pom Pom. Теперь я сам реагирую на код, ошибки и долгую работу.</div>
         </div>
       </aside>
     </main>
+
+    <footer class="statusbar">
+      <span id="statusProject">Нет открытой папки</span>
+      <span id="statusFile">main.pom</span>
+      <span id="statusMascot">Pom Pom: idle</span>
+      <span id="statusLanguage">Язык: Pomidor</span>
+      <span id="statusLanguageVersion">Pomidor: проверка...</span>
+    </footer>
   </div>
 
   <script src="../node_modules/monaco-editor/min/vs/loader.js"></script>

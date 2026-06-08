@@ -1,54 +1,162 @@
-.pompom {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto;
+.pompom-card {
+  background: linear-gradient(180deg, #29292d 0%, #242427 100%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+}
+.pixel-stage {
   position: relative;
-  animation: float 2.4s ease-in-out infinite;
+  height: 240px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    radial-gradient(circle at center, rgba(255,255,255,.04), rgba(0,0,0,.12));
+  background-size: 18px 18px, 18px 18px, cover;
 }
-.pompom .body {
-  position: absolute;
-  left: 15px;
-  bottom: 0;
-  width: 120px;
-  height: 120px;
-  border-radius: 48% 52% 45% 55%;
-  background: radial-gradient(circle at 35% 30%, #ff8977, #e83d27 70%);
-  box-shadow: inset -12px -16px 0 rgba(0, 0, 0, .12), 0 12px 30px rgba(255, 99, 71, .25);
+.pompom-sprite {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .4));
 }
-.pompom .leaf {
+.pixel-particles {
   position: absolute;
-  top: 0;
-  left: 57px;
-  width: 46px;
-  height: 35px;
-  background: #3cd66f;
-  border-radius: 100% 0 100% 0;
-  transform: rotate(-25deg);
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.pixel-particles span {
+  position: absolute;
+  color: #ffd166;
+  font-weight: 700;
+  animation: particleFloat 2.4s ease-in-out infinite;
+  opacity: .9;
+}
+.sleep-text {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+  color: #b7c8ff;
+  font-weight: 700;
+  letter-spacing: .2em;
+  opacity: 0;
+  transition: .2s ease;
   z-index: 3;
+  animation: sleepTextFloat 1.8s ease-in-out infinite;
 }
-.eye {
-  position: absolute;
-  top: 42px;
-  width: 14px;
-  height: 20px;
-  background: #220e0a;
-  border-radius: 50%;
+.mood-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
 }
-.eye.left { left: 35px; }
-.eye.right { right: 35px; }
-.mouth {
-  position: absolute;
-  left: 45px;
-  top: 78px;
-  width: 30px;
-  height: 14px;
-  border-radius: 0 0 25px 25px;
-  border-bottom: 5px solid #220e0a;
+.mood-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #1d1d20;
+  border: 1px solid var(--border);
+  font-size: 11px;
+  letter-spacing: .08em;
+  font-weight: 700;
 }
-.pompom.happy .mouth { height: 24px; background: #7d1c17; border: 0; }
-.pompom.sad .mouth { border-bottom: 0; border-top: 5px solid #220e0a; border-radius: 25px 25px 0 0; }
-.pompom.angry .eye { height: 8px; transform: rotate(15deg); }
-.pompom.sleep .eye { height: 4px; top: 50px; }
-.pompom.sleep { animation: sleep 3s ease-in-out infinite; }
-@keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
-@keyframes sleep { 0%,100%{ transform: translateY(0) rotate(-2deg); } 50%{ transform: translateY(4px) rotate(2deg); } }
+.mood-note {
+  color: var(--muted);
+  font-size: 12px;
+}
+.speech {
+  margin-top: 12px;
+  padding: 12px;
+  background: #1f2024;
+  color: #f1f1f1;
+  border: 1px solid #36363a;
+  border-radius: 10px;
+  line-height: 1.45;
+}
+.bubble-pop .speech {
+  animation: bubblePop .22s ease-out;
+}
+
+.pompom-card[data-mood="idle"] .pompom-sprite { animation: floatIdle 2.8s ease-in-out infinite; }
+.pompom-card[data-mood="happy"] .pompom-sprite,
+.pompom-card[data-mood="play"] .pompom-sprite,
+.pompom-card[data-mood="eat"] .pompom-sprite { animation: jumpHappy .7s ease-in-out 2; }
+.pompom-card[data-mood="sad"] .pompom-sprite { animation: droopSad 1.8s ease-in-out infinite; }
+.pompom-card[data-mood="angry"] .pompom-sprite { animation: shakeAngry .3s linear 4; }
+.pompom-card[data-mood="sleep"] .pompom-sprite { animation: swaySleep 2.4s ease-in-out infinite; }
+.pompom-card[data-mood="sleepy"] .pompom-sprite { animation: sleepyIdle 2.2s ease-in-out infinite; filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .4)) saturate(.75); }
+.pompom-card[data-mood="code"] .pompom-sprite { animation: codeBob 1.6s ease-in-out infinite; }
+.pompom-card[data-mood="surprised"] .pompom-sprite { animation: surprisePop .55s ease-in-out 2; }
+.pompom-card[data-mood="love"] .pompom-sprite { animation: lovePulse .8s ease-in-out 2; }
+
+.pompom-card[data-mood="happy"] .mood-badge,
+.pompom-card[data-mood="play"] .mood-badge,
+.pompom-card[data-mood="eat"] .mood-badge { color: #101410; background: #73c991; }
+.pompom-card[data-mood="sad"] .mood-badge { color: #1a1a1a; background: #ffcc66; }
+.pompom-card[data-mood="angry"] .mood-badge { color: white; background: #f44747; }
+.pompom-card[data-mood="sleep"] .mood-badge { color: white; background: #6c8cff; }
+.pompom-card[data-mood="sleepy"] .mood-badge { color: white; background: #7f6cff; }
+.pompom-card[data-mood="code"] .mood-badge { color: #fff; background: #4e8cff; }
+.pompom-card[data-mood="surprised"] .mood-badge { color: #111; background: #ffd166; }
+.pompom-card[data-mood="love"] .mood-badge { color: #fff; background: #ff5c8a; }
+
+@keyframes floatIdle {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.01); }
+}
+@keyframes jumpHappy {
+  0%,100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-18px) scale(1.04); }
+  60% { transform: translateY(0) scale(.98); }
+}
+@keyframes droopSad {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(6px) rotate(-4deg); }
+}
+@keyframes shakeAngry {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-7px) rotate(-2deg); }
+  75% { transform: translateX(7px) rotate(2deg); }
+}
+@keyframes swaySleep {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(5px) rotate(2deg); }
+}
+@keyframes sleepyIdle {
+  0%,100% { transform: translateY(3px) rotate(-4deg) scale(.98); opacity: .9; }
+  50% { transform: translateY(8px) rotate(3deg) scale(.96); opacity: .75; }
+}
+@keyframes codeBob {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes surprisePop {
+  0%,100% { transform: scale(1); }
+  40% { transform: scale(1.1) translateY(-8px); }
+}
+@keyframes lovePulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+@keyframes particleFloat {
+  0%,100% { transform: translateY(0) scale(1); opacity: .8; }
+  50% { transform: translateY(-8px) scale(1.15); opacity: 1; }
+}
+@keyframes sleepTextFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes bubblePop {
+  0% { transform: scale(.97); }
+  100% { transform: scale(1); }
+}
