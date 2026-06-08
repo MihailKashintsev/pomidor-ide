@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pomidor IDE</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="mascot/pompom.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-logo">🍅</div>
+        <div>
+          <strong>Pomidor IDE</strong>
+          <span id="version">v0.1.0</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="newBtn">Новый</button>
+        <button id="openBtn">Открыть</button>
+        <button id="saveBtn">Сохранить</button>
+        <button id="runBtn" class="primary">▶ Запуск</button>
+        <button id="updateBtn">Обновления</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar">
+        <h3>Проект</h3>
+        <div class="file-card active" id="currentFile">main.pom</div>
+        <h3>Шаблоны</h3>
+        <button class="wide" id="templateHello">Hello Pom</button>
+        <button class="wide" id="templateIf">Условие</button>
+      </aside>
+
+      <section class="editor-zone">
+        <div class="editor-title">
+          <span id="fileName">main.pom</span>
+          <span id="saveState">не сохранено</span>
+        </div>
+        <div id="editor"></div>
+        <div class="terminal">
+          <div class="terminal-tabs">
+            <strong>Вывод</strong>
+            <span id="runStatus">готов</span>
+          </div>
+          <pre id="terminalOutput">Pom Pom: Напиши код и нажми Запуск.</pre>
+        </div>
+      </section>
+
+      <aside class="mascot-panel">
+        <div class="pompom-card">
+          <div id="pompom" class="pompom idle">
+            <div class="leaf"></div>
+            <div class="body">
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+              <div class="mouth"></div>
+            </div>
+          </div>
+          <div class="speech" id="pompomMessage">Я Pom Pom. Я буду следить за твоим кодом!</div>
+        </div>
+
+        <div class="stats">
+          <div><span>Счастье</span><meter id="happyMeter" min="0" max="100" value="80"></meter></div>
+          <div><span>Энергия</span><meter id="energyMeter" min="0" max="100" value="100"></meter></div>
+          <div><span>Голод</span><meter id="hungerMeter" min="0" max="100" value="20"></meter></div>
+        </div>
+
+        <div class="pet-actions">
+          <button id="feedBtn">🍅 Покормить</button>
+          <button id="playBtn">🎮 Поиграть</button>
+          <button id="sleepBtn">💤 Сон</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+  <script src="editor/pomidorLanguage.js"></script>
+  <script src="mascot/pompom.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

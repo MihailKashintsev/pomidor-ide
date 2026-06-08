@@ -1,0 +1,76 @@
+{
+  "name": "pomidor-ide",
+  "version": "0.1.0",
+  "description": "Pomidor IDE — code editor for the Pomidor programming language with Pom Pom mascot.",
+  "author": "RENDERGAMES",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build:mac": "electron-builder --mac",
+    "release": "node scripts/release.js",
+    "pack:source": "node scripts/pack-source.js"
+  },
+  "dependencies": {
+    "@monaco-editor/loader": "^1.5.0",
+    "electron-updater": "^6.6.2",
+    "monaco-editor": "^0.52.2"
+  },
+  "devDependencies": {
+    "electron": "^35.7.5",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.rendergames.pomidoride",
+    "productName": "Pomidor IDE",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "compiler/**/*",
+      "examples/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "compiler",
+        "to": "compiler"
+      }
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "MihailKashintsev",
+        "repo": "pomidor-ide"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Development"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.developer-tools"
+    }
+  }
+}

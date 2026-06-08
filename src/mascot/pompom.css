@@ -1,0 +1,54 @@
+.pompom {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  position: relative;
+  animation: float 2.4s ease-in-out infinite;
+}
+.pompom .body {
+  position: absolute;
+  left: 15px;
+  bottom: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 48% 52% 45% 55%;
+  background: radial-gradient(circle at 35% 30%, #ff8977, #e83d27 70%);
+  box-shadow: inset -12px -16px 0 rgba(0, 0, 0, .12), 0 12px 30px rgba(255, 99, 71, .25);
+}
+.pompom .leaf {
+  position: absolute;
+  top: 0;
+  left: 57px;
+  width: 46px;
+  height: 35px;
+  background: #3cd66f;
+  border-radius: 100% 0 100% 0;
+  transform: rotate(-25deg);
+  z-index: 3;
+}
+.eye {
+  position: absolute;
+  top: 42px;
+  width: 14px;
+  height: 20px;
+  background: #220e0a;
+  border-radius: 50%;
+}
+.eye.left { left: 35px; }
+.eye.right { right: 35px; }
+.mouth {
+  position: absolute;
+  left: 45px;
+  top: 78px;
+  width: 30px;
+  height: 14px;
+  border-radius: 0 0 25px 25px;
+  border-bottom: 5px solid #220e0a;
+}
+.pompom.happy .mouth { height: 24px; background: #7d1c17; border: 0; }
+.pompom.sad .mouth { border-bottom: 0; border-top: 5px solid #220e0a; border-radius: 25px 25px 0 0; }
+.pompom.angry .eye { height: 8px; transform: rotate(15deg); }
+.pompom.sleep .eye { height: 4px; top: 50px; }
+.pompom.sleep { animation: sleep 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
+@keyframes sleep { 0%,100%{ transform: translateY(0) rotate(-2deg); } 50%{ transform: translateY(4px) rotate(2deg); } }
